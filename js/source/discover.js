@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 import Button from './components/Button';
 import Logo from './components/Logo';
 import Suggest from './components/Suggest';
+import Rating from './components/Rating';
 
 
 // import Excel from './components/Excel';
@@ -20,6 +21,12 @@ import Suggest from './components/Suggest';
 ReactDOM.render(
   <div style={{ padding: '20px' }}>
     <h1>Component Discoverer</h1>
+
+    <h2>Rating</h2>
+    <div>No initial value: <Rating /></div>
+    <div>Initial value 4: <Rating defaultValue={4} /></div>
+    <div>This one goes to 11: <Rating max={11} /></div>
+    <div>Read-only: <Rating readonly={true} defaultValue={3} /></div>
 
     <h2>Suggest</h2>
     <div>
