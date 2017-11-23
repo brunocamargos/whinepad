@@ -11,8 +11,9 @@ export default [
   {
     id: 'year',
     label: 'Year',
+    type: 'year',
     show: true,
-    sample: '2015',
+    sample: 2015,
   },
   {
     id: 'grape',

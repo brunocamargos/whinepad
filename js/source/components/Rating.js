@@ -16,12 +16,11 @@ class Rating extends Component {
   }
 
   setTemp(rating) {
-    !this.props.readonly &&
-      this.setState({ tmpRating: rating });
+    this.setState({ tmpRating: rating });
   }
 
   setRating(rating) {
-    !this.props.readonly && this.setState({
+    this.setState({
       tmpRating: rating,
       rating: rating
     });
@@ -42,8 +41,8 @@ class Rating extends Component {
         <span
           className={classNames({ RatingOn: i <= this.state.tmpRating })}
           key={i}
-          onClick={this.setRating.bind(this, i)}
-          onMouseOver={this.setTemp.bind(this, i)}
+          onClick={!this.props.readonly ? this.setRating.bind(this, i) : null}
+          onMouseOver={!this.props.readonly ? this.setTemp.bind(this, i) : null}
         >
           &#9734;
         </span>);

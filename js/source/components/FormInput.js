@@ -4,10 +4,6 @@ import Rating from './Rating';
 import Suggest from './Suggest';
 
 class FormInput extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { value: props.defaultValue }
-  }
 
   getValue() {
     return 'value' in this.refs.input
@@ -30,30 +26,16 @@ class FormInput extends Component {
             type="number"
             defaultValue={this.props.defaultValue || new Date().getFullYear()} />
         );
-        break;
       case 'suggest':
-        return (
-          <Suggest {...commonProps} options={this.props.options} />
-        );
-        break;
+        return <Suggest {...commonProps} options={this.props.options} />;
       case 'rating':
-        return (
-          <Rating {...commonProps} defaultValue={parseInt(this.props.defaultValue, 10)} />
-        );
-        break;
+        return <Rating {...commonProps} defaultValue={parseInt(this.props.defaultValue || 0, 10)} />;
       case 'text':
-        return (
-          <textarea {...commonProps} />
-        );
-        break;
+        return <textarea {...commonProps} />;
       default:
-        return (
-          <input type="text" {...commonProps} />
-        );
-        break;
+        return <input type="text" {...commonProps} />;
     }
   }
-
 
 }
 

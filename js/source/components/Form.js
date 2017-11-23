@@ -4,10 +4,6 @@ import Rating from './Rating';
 import FormInput from './FormInput';
 
 class Form extends Component {
-  // constructor(props) {
-  //   super(props);
-
-  // }
 
   getData() {
     return this.props.fields.reduce((acc, cur) => {

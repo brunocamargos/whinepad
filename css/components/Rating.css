@@ -7,7 +7,7 @@
 }
 
 .Rating.RatingReadonly{
-  cursor: auto;
+  cursor: default;
 }
 
 .Rating > span {
