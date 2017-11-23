@@ -8,21 +8,23 @@ import FormInput from './components/FormInput';
 import Form from './components/Form';
 import Actions from './components/Actions';
 import Dialog from './components/Dialog';
+import Excel from './components/Excel';
+import schema from './schema';
 
-
-// import Excel from './components/Excel';
-
-// var headers = localStorage.getItem('headers');
-// var data = localStorage.getItem('data');
-
-// if (!headers) {
-//   headers = ['Title', 'Year', 'Rating', 'Comments'];
-//   data = [['Test', '2015', '3', 'meh']];
-// }
+let data = {};
+schema.forEach(item => data[item.id] = item.sample);
+data = [data];
 
 ReactDOM.render(
   <div style={{ padding: '20px' }}>
     <h1>Component Discoverer</h1>
+
+    <h2>Excel</h2>
+    <div>
+      <Excel
+        schema={schema}
+        initialData={data} />
+    </div>
 
     <h2>Dialog</h2>
     <div>

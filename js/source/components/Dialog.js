@@ -8,7 +8,7 @@ class Dialog extends Component {
   render() {
     return (
       <div className={classNames({ Dialog: true, DialogModal: this.props.modal })}>
-        <div className={this.props.modal ? 'DialogModalWraper' : null}>
+        <div className={this.props.modal ? 'DialogModalWrap' : null}>
           <div className="DialogHeader">{this.props.header}</div>
           <div className="DialogBody">{this.props.children}</div>
           <div className="DialogFooter">
