@@ -16,10 +16,16 @@ class Rating extends Component {
   }
 
   setTemp(rating) {
+    if (this.props.readonly)
+      return null;
+
     this.setState({ tmpRating: rating });
   }
 
   setRating(rating) {
+    if (this.props.readonly)
+      return null;
+
     this.setState({
       tmpRating: rating,
       rating: rating
@@ -31,7 +37,22 @@ class Rating extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log('nextProps: ', nextProps)
     this.setRating(nextProps.defaultValue);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('Rating should update?')
+    console.log('shouldComponentUpdate nextProps: ', nextProps)
+    console.log('shouldComponentUpdate nextState: ', nextState)
+    // return !nextProps.readonly;
+    return true;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log('Rating updated!')
+    console.log('componentDidUpdate prevProps: ', prevProps)
+    console.log('componentDidUpdate prevState: ', prevState)
   }
 
   render() {
@@ -41,8 +62,8 @@ class Rating extends Component {
         <span
           className={classNames({ RatingOn: i <= this.state.tmpRating })}
           key={i}
-          onClick={!this.props.readonly ? this.setRating.bind(this, i) : null}
-          onMouseOver={!this.props.readonly ? this.setTemp.bind(this, i) : null}
+          onClick={this.setRating.bind(this, i)}
+          onMouseOver={this.setTemp.bind(this, i)}
         >
           &#9734;
         </span>);
@@ -57,6 +78,8 @@ class Rating extends Component {
         onMouseOut={this.reset.bind(this)}
       >
         {stars}
+        {/* {console.log('this.props.readonly: ', this.props.readonly)}
+        {console.log('this.props.id: ', this.props.id)}
         {
           this.props.readonly || !this.props.id
             ? null
@@ -64,7 +87,7 @@ class Rating extends Component {
               type="hidden"
               id={this.props.id}
               value={this.state.rating} />
-        }
+        } */}
       </div>
     );
   }

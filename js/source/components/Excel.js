@@ -27,32 +27,32 @@ class Excel extends Component {
     this.props.onDataChange(data);
   }
 
-  sort(key) {
-    let data = Array.from(this.state.data);
-    const descending = this.state.sortby === key && !this.state.descending;
-    data.sort(function (a, b) {
-      return descending
-        ? (a[key] < b[key] ? 1 : -1)
-        : (a[key] > b[key] ? 1 : -1);
-    });
+  // sort(key) {
+  //   let data = Array.from(this.state.data);
+  //   const descending = this.state.sortby === key && !this.state.descending;
+  //   data.sort(function (a, b) {
+  //     return descending
+  //       ? (a[key] < b[key] ? 1 : -1)
+  //       : (a[key] > b[key] ? 1 : -1);
+  //   });
 
-    this.setState({
-      data,
-      sortby: key,
-      descending,
-    });
+  //   this.setState({
+  //     data,
+  //     sortby: key,
+  //     descending,
+  //   });
 
-    this.fireDataChange(data);
-  }
+  //   this.fireDataChange(data);
+  // }
 
-  showEditor(e) {
-    this.setState({
-      edit: {
-        row: parseInt(e.target.dataset.row, 10),
-        key: e.target.dataset.key,
-      },
-    });
-  }
+  // showEditor(e) {
+  //   this.setState({
+  //     edit: {
+  //       row: parseInt(e.target.dataset.row, 10),
+  //       key: e.target.dataset.key,
+  //     },
+  //   });
+  // }
 
   save(e) {
     e.preventDefault();
@@ -67,51 +67,51 @@ class Excel extends Component {
     this.fireDataChange(data);
   }
 
-  actionClick(rowidx, action) {
-    this.setState({ dialog: { type: action, idx: rowidx } });
-  }
+  // actionClick(rowidx, action) {
+  //   this.setState({ dialog: { type: action, idx: rowidx } });
+  // }
 
-  deleteCofirmationClick(action) {
-    if (action === 'dismiss') {
-      this.closeDialog();
-      return;
-    }
+  // deleteCofirmationClick(action) {
+  //   if (action === 'dismiss') {
+  //     this.closeDialog();
+  //     return;
+  //   }
 
-    let data = Array.from(this.state.data);
-    data.splice(this.state.dialog.idx, 1);
-    this.setState({
-      data,
-      dialog: null,
-    });
+  //   let data = Array.from(this.state.data);
+  //   data.splice(this.state.dialog.idx, 1);
+  //   this.setState({
+  //     data,
+  //     dialog: null,
+  //   });
 
-    this.fireDataChange(data)
-  }
+  //   this.fireDataChange(data)
+  // }
 
-  closeDialog() {
-    this.setState({ dialog: null });
-  }
+  // closeDialog() {
+  //   this.setState({ dialog: null });
+  // }
 
-  saveDataDialog(action) {
-    if (action === 'dismiss') {
-      this.closeDialog();
-      return;
-    }
+  // saveDataDialog(action) {
+  //   if (action === 'dismiss') {
+  //     this.closeDialog();
+  //     return;
+  //   }
 
-    let data = Array.from(this.state.data);
-    data[this.state.dialog.idx] = this.refs.form.getDate();
-    this.setState({
-      data,
-      dialog: null,
-    });
+  //   let data = Array.from(this.state.data);
+  //   data[this.state.dialog.idx] = this.refs.form.getDate();
+  //   this.setState({
+  //     data,
+  //     dialog: null,
+  //   });
 
-    this.fireDataChange(data);
-  }
+  //   this.fireDataChange(data);
+  // }
 
   render() {
     return (
       <div className="Excel">
         {this.renderTable()}
-        {this.renderDialog()}
+        {/* {this.renderDialog()} */}
       </div>
     );
   }
@@ -128,23 +128,26 @@ class Excel extends Component {
                 }
 
                 let title = item.label;
-                if (this.state.sortby === item.id) {
-                  return (
-                    <th
-                      className={`schema-${item.id}`}
-                      key={item.id}
-                      onClick={this.sort.bind(this)}
-                    >
-                      {title}
-                    </th>
-                  );
-                }
+                // if (this.state.sortby === item.id) {
+                //   title += this.state.descending ? ' \u2191' : ' \u2193';
+                // }
+                
+                return (
+                  <th 
+                    className={`schema-${item.id}`}
+                    key={item.id}
+                    // onClick={this.sort.bind(this, item.id)}
+                  >
+                    {title}
+                  </th>
+                );
               }, this)
             }
-            <th className="ExcelNotSortable">Actions</th>
+            {/* <th className="ExcelNotSortable">Actions</th> */}
           </tr>
         </thead>
-        <tbody onDoubleClick={this.showEditor.bind(this)}>
+        {/* <tbody onDoubleClick={this.showEditor.bind(this)}> */}
+        <tbody>
           {
             this.state.data.map((row, rowidx) => {
               return (
@@ -152,6 +155,12 @@ class Excel extends Component {
                   {
                     Object.keys(row).map((cell, idx) => {
                       const schema = this.props.schema[idx];
+                      console.log('row: ', row)
+                      console.log('rowidx: ', rowidx)
+                      console.log('cell: ', cell)
+                      console.log('idx: ', idx)
+                      console.log('schema: ', schema)
+                      console.log('---------------------')
                       if (!schema || !schema.show) {
                         return null;
                       }
@@ -159,16 +168,16 @@ class Excel extends Component {
                       const isRating = schema.type === 'rating';
                       const edit = this.state.edit;
                       let content = row[cell];
-                      if (!isRating && edit && edit.row === rowidx && edit.key === schema.id) {
-                        content = (
-                          <form onSubmit={this.save.bind(this)}>
-                            <FormInput ref="input" {...schema} defaultValue={content} />
-                          </form>
-                        );
-                      }
-                      else if (isRating) {
+                      // if (!isRating && edit && edit.row === rowidx && edit.key === schema.id) {
+                      //   content = (
+                      //     <form onSubmit={this.save.bind(this)}>
+                      //       <FormInput ref="input" {...schema} defaultValue={content} />
+                      //     </form>
+                      //   );
+                      // }
+                      // else if (isRating) {
                         content = <Rating readonly={true} defaultValue={Number(content)} />;
-                      }
+                      // }
 
                       return (
                         <td
@@ -188,9 +197,9 @@ class Excel extends Component {
                       );
                     }, this)
                   }
-                  <td className="ExcelDataCenter">
+                  {/* <td className="ExcelDataCenter">
                     <Actions onAction={this.actionClick.bind(this, rowidx)} />
-                  </td>
+                  </td> */}
                 </tr>
               );
             }, this)
@@ -200,56 +209,56 @@ class Excel extends Component {
     );
   }
 
-  renderDialog() {
-    if (!this.state.dialog) {
-      return null;
-    }
+  // renderDialog() {
+  //   if (!this.state.dialog) {
+  //     return null;
+  //   }
 
-    switch (this.state.dialog.type) {
-      case 'delete':
-        return this.renderDeleteDialog();
-      case 'info':
-        return this.renderFormDialog(true);
-      case 'edit':
-        return this.renderFormDialog();
-      default:
-        throw Error(`Unexpected dialog type ${this.state.dialog.idx}`);
-    }
-  }
+  //   switch (this.state.dialog.type) {
+  //     case 'delete':
+  //       return this.renderDeleteDialog();
+  //     case 'info':
+  //       return this.renderFormDialog(true);
+  //     case 'edit':
+  //       return this.renderFormDialog();
+  //     default:
+  //       throw Error(`Unexpected dialog type ${this.state.dialog.idx}`);
+  //   }
+  // }
 
-  renderDeleteDialog() {
-    const first = this.state.data[this.state.dialog.idx];
-    const nameguess = first[Object.keys(first)[0]];
+  // renderDeleteDialog() {
+  //   const first = this.state.data[this.state.dialog.idx];
+  //   const nameguess = first[Object.keys(first)[0]];
 
-    return (
-      <Dialog
-        modal={true}
-        header="Confirm deletion"
-        confirmLabel="Delete"
-        onAction={this.deleteCofirmationClick.bind(this)}
-      >
-        {`Àre you sure you want to delete "${nameguess}"`}
-      </Dialog>
-    );
-  }
+  //   return (
+  //     <Dialog
+  //       modal={true}
+  //       header="Confirm deletion"
+  //       confirmLabel="Delete"
+  //       onAction={this.deleteCofirmationClick.bind(this)}
+  //     >
+  //       {`Àre you sure you want to delete "${nameguess}"`}
+  //     </Dialog>
+  //   );
+  // }
 
-  renderFormDialog(readonly) {
-    return (
-      <Dialog
-        modal={true}
-        header={readonly ? 'Item info' : 'Edit item'}
-        confirmLabel={readonly ? 'ok' : 'Save'}
-        hasCancel={readonly}
-        onAction={this.saveDataDialog.bind(this)}
-      >
-        <Form
-          ref="form"
-          fields={this.props.schema}
-          initialData={this.state.data[this.state.dialog.idx]}
-          readonly={readonly} />
-      </Dialog >
-    );
-  }
+  // renderFormDialog(readonly) {
+  //   return (
+  //     <Dialog
+  //       modal={true}
+  //       header={readonly ? 'Item info' : 'Edit item'}
+  //       confirmLabel={readonly ? 'ok' : 'Save'}
+  //       hasCancel={readonly}
+  //       onAction={this.saveDataDialog.bind(this)}
+  //     >
+  //       <Form
+  //         ref="form"
+  //         fields={this.props.schema}
+  //         initialData={this.state.data[this.state.dialog.idx]}
+  //         readonly={readonly} />
+  //     </Dialog >
+  //   );
+  // }
 }
 
 Excel.propTypes = {
