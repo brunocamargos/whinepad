@@ -23,34 +23,22 @@ class Whinepad extends Component {
   }
 
   addNew(action) {
-    console.log('action: ', action)
     if (action === 'dismiss') {
       this.setState({ addnew: false });
       return;
     }
 
-    // const data = [this.refs.form.getData(), ...this.state.data]
-    // console.log('...this.state.data: ', ...this.state.data)
-    // console.log('this.refs.form.getValue(): ', this.refs.form.getValue());
-    const newItem = { rating: this.refs.form.getValue() };
-
-    const data = [newItem, ...this.state.data];
-
-    // console.log('this.refs.form.getData(): ', this.refs.form.getData())
-    // console.log('this.state.data: ', this.state.data)
-    // console.log('data: ', data)
+    const data = [this.refs.form.getData(), ...this.state.data]
 
     this.setState({
       addnew: false,
       data,
     });
 
-    // console.log('this.state.data: ', this.state.data)
     this.commitToStorage(data);
   }
 
   onExcelDataChange(data) {
-    console.log('excel changed')
     this.setState({ data });
     this.commitToStorage(data);
   }
@@ -59,37 +47,36 @@ class Whinepad extends Component {
     localStorage.setItem('data', JSON.stringify(data));
   }
 
-  // startSearching() {
-  //   this.preSearchData = this.state.data;
-  // }
+  startSearching() {
+    this.preSearchData = this.state.data;
+  }
 
-  // doneSearching() {
-  //   this.setState({ data: this.preSearchData });
-  // }
+  doneSearching() {
+    this.setState({ data: this.preSearchData });
+  }
 
-  // search(e) {
-  //   const needle = e.target.value.toLowerCase();
-  //   if (!needle) {
-  //     this.setState({ data: this.preSearchData });
-  //     return;
-  //   }
+  search(e) {
+    const needle = e.target.value.toLowerCase();
+    if (!needle) {
+      this.setState({ data: this.preSearchData });
+      return;
+    }
 
-  //   const fields = this.props.schema.map(item => item.id);
-  //   const searchdata = this.preSearchData.filter(row => {
-  //     for (let i = 0; i < fields.length; i++) {
-  //       if (row[fields[i]].toString().toLowerCase().indexOf(needle) > -1) {
-  //         return true;
-  //       }
-  //     }
+    const fields = this.props.schema.map(item => item.id);
+    const searchdata = this.preSearchData.filter(row => {
+      for (let i = 0; i < fields.length; i++) {
+        if (row[fields[i]].toString().toLowerCase().indexOf(needle) > -1) {
+          return true;
+        }
+      }
 
-  //     return false;
-  //   });
+      return false;
+    });
 
-  //   this.setState({ data: searchdata });
-  // }
+    this.setState({ data: searchdata });
+  }
 
   render() {
-    console.log('render');
     return (
       <div className="Whinepad">
         <div className="WhinepadToolbar">
@@ -103,13 +90,13 @@ class Whinepad extends Component {
             </Button>
           </div>
 
-          {/* <div className="WhinepadToolbarSearch">
+          <div className="WhinepadToolbarSearch">
             <input
               placeholder="Search..."
               onChange={this.search.bind(this)}
               onFocus={this.startSearching.bind(this)}
               onBlur={this.doneSearching.bind(this)} />
-          </div>*/}
+          </div>
         </div>
 
         <div className="WhinepadDatagrid">
@@ -126,10 +113,9 @@ class Whinepad extends Component {
               confirmLabel="Add"
               onAction={this.addNew.bind(this)}
             >
-              <Rating ref="form" />
-              {/* <Form
+              <Form
                 ref="form"
-                fields={this.props.schema} /> */}
+                fields={this.props.schema} />
             </Dialog>
             : null
         }
