@@ -16,16 +16,10 @@ class Rating extends Component {
   }
 
   setTemp(rating) {
-    if (this.props.readonly)
-      return null;
-
     this.setState({ tmpRating: rating });
   }
 
   setRating(rating) {
-    if (this.props.readonly)
-      return null;
-
     this.setState({
       tmpRating: rating,
       rating: rating
@@ -37,49 +31,60 @@ class Rating extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('nextProps: ', nextProps)
     this.setRating(nextProps.defaultValue);
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    console.log('Rating should update?')
-    console.log('shouldComponentUpdate nextProps: ', nextProps)
-    console.log('shouldComponentUpdate nextState: ', nextState)
-    // return !nextProps.readonly;
-    return true;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    console.log('Rating updated!')
-    console.log('componentDidUpdate prevProps: ', prevProps)
-    console.log('componentDidUpdate prevState: ', prevState)
+  getRatingItem(className, key) {
+    return !this.props.readonly
+      ? <span
+        className={className}
+        key={key}
+        onClick={this.setRating.bind(this, key)}
+        onMouseOver={this.setTemp.bind(this, key)}
+      >
+        &#9734;
+      </span>
+      : <span
+        className={className}
+        key={key}
+      >
+        &#9734;
+      </span>;
   }
 
   render() {
     const stars = [];
     for (let i = 1; i <= this.props.max; i++) {
-      stars.push(
-        <span
-          className={classNames({ RatingOn: i <= this.state.tmpRating })}
-          key={i}
-          onClick={this.setRating.bind(this, i)}
-          onMouseOver={this.setTemp.bind(this, i)}
-        >
-          &#9734;
-        </span>);
+      stars.push(this.getRatingItem(classNames({ RatingOn: i <= this.state.tmpRating }), i));
+      // const className = classNames({ RatingOn: i <= this.state.tmpRating });
+      // stars.push((!this.props.readonly
+      //   ? <span
+      //     className={className}
+      //     key={i}
+      //     onClick={this.setRating.bind(this, i)}
+      //     onMouseOver={this.setTemp.bind(this, i)}
+      //   >
+      //     &#9734;
+      //     </span>
+      //   : <span
+      //     className={className}
+      //     key={i}
+      //   >
+      //     &#9734;
+      //     </span>));
     }
 
     return (
       <div
-        className={classNames({
-          Rating: true,
-          RatingReadonly: this.props.readonly
-        })}
+        className={
+          classNames({
+            Rating: true,
+            RatingReadonly: this.props.readonly
+          })
+        }
         onMouseOut={this.reset.bind(this)}
       >
         {stars}
-        {/* {console.log('this.props.readonly: ', this.props.readonly)}
-        {console.log('this.props.id: ', this.props.id)}
         {
           this.props.readonly || !this.props.id
             ? null
@@ -87,7 +92,7 @@ class Rating extends Component {
               type="hidden"
               id={this.props.id}
               value={this.state.rating} />
-        } */}
+        }
       </div>
     );
   }
