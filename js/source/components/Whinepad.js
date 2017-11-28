@@ -4,7 +4,6 @@ import Excel from './Excel';
 import Form from './Form';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Rating from './Rating';
 
 class Whinepad extends Component {
 

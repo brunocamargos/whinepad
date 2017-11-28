@@ -166,8 +166,7 @@ class Excel extends Component {
                             <FormInput ref="input" {...schema} defaultValue={content} />
                           </form>
                         );
-                      }
-                      else if (isRating) {
+                      } else if (isRating) {
                         content = <Rating readonly={true} defaultValue={Number(content)} />;
                       }
 

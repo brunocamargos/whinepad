@@ -30,7 +30,7 @@ class Suggest extends Component {
 }
 
 Suggest.propTypes = {
-  options: PropTypes.arrayOf(PropTypes.string)
+  options: PropTypes.arrayOf(PropTypes.string),
 }
 
 export default Suggest;

@@ -39,7 +39,7 @@ ReactDOM.render(
       <Dialog
         header="No cancel, custom buttom"
         hasCancel={false}
-        confirmLabel='Whatever'
+        confirmLabel="Whatever"
         onAction={type => alert(type)}>
         Anything goes here, see:
         <Button>A button </Button>

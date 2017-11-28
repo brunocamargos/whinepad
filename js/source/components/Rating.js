@@ -7,7 +7,7 @@ class Rating extends Component {
     super(props);
     this.state = {
       rating: props.defaultValue,
-      tmpRating: props.defaultValue
+      tmpRating: props.defaultValue,
     };
   }
 
@@ -22,7 +22,7 @@ class Rating extends Component {
   setRating(rating) {
     this.setState({
       tmpRating: rating,
-      rating: rating
+      rating: rating,
     });
   }
 
@@ -79,7 +79,7 @@ class Rating extends Component {
         className={
           classNames({
             Rating: true,
-            RatingReadonly: this.props.readonly
+            RatingReadonly: this.props.readonly,
           })
         }
         onMouseOut={this.reset.bind(this)}
