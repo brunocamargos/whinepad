@@ -1,10 +1,27 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
+/* @flow */
+
 import Button from './Button'
+import React, { Component } from 'react';
+import classNames from 'classnames';
 
-class Dialog extends Component {
+type Props = {
+  header: string,
+  confirmLabel: string,
+  modal: boolean,
+  onAction: Function,
+  hasCancel: boolean,
+  children?: Array<any>,
+}
 
+class Dialog extends Component<Props> {
+
+  static defaultProps = {
+    confirmLabel: 'ok',
+    modal: false,
+    onAction: () => {},
+    hasCancel: true,
+  };
+  
   render() {
     return (
       <div className={classNames({ Dialog: true, DialogModal: this.props.modal })}>
@@ -16,7 +33,8 @@ class Dialog extends Component {
               ? <span className="DialogDismiss" onClick={this.props.onAction.bind(this, 'dismiss')}> Cancel </span>
               : null
             }
-            <Button onClick={this.props.onAction.bind(this, this.props.hasCancel ? 'confirm' : 'dismiss')}>
+            <Button onClick={this.props.onAction.bind(this,
+              this.props.hasCancel ? 'confirm' : 'dismiss')}>
               {this.props.confirmLabel}
             </Button>
           </div>
@@ -26,29 +44,16 @@ class Dialog extends Component {
   }
 
   componentWillUnmount() {
-    document.body.classList.remove('DialogModalOpen');
+    if (document.body)
+      document.body.classList.remove('DialogModalOpen');
   }
 
   componentDidMount() {
-    if (this.props.modal) {
+    if (this.props.modal && document.body) {
       document.body.classList.add('DialogModalOpen')
     }
   }
 
-}
-
-Dialog.PropTypes = {
-  header: PropTypes.string.isRequired,
-  confirmLabel: PropTypes.string,
-  modal: PropTypes.bool,
-  onAction: PropTypes.func,
-  hasCancel: PropTypes.bool,
-}
-
-Dialog.defaultProps = {
-  confirmLabel: 'ok',
-  onAction: () => { },
-  hasCancel: true,
 }
 
 export default Dialog;
